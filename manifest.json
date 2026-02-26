@@ -1,28 +1,26 @@
  (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/manifest.json b/manifest.json
-index 88c05656879c9403187adbc27ae33005f78f6cad..a2b32ba77fbe8be74c2e061e681fc7ce1d78e922 100644
+index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d105b595f3 100644
 --- a/manifest.json
 +++ b/manifest.json
 @@ -1,63 +1,67 @@
  {
-+  "id": "/?source=pwa",
++  "id": "./?source=pwa",
    "name": "Infiniversal",
    "short_name": "Infiniversal",
 -  "description": "Bloc de notas creativo para poesía y letras de canciones. Escribe, organiza y comparte tu obra. Funciona 100% sin conexión.",
 -
 -  "start_url": "./",
--  "scope": "./",
--  "id": "infiniversal-pwa-v1",
--
 +  "description": "Bloc de notas creativo para poesía y letras de canciones. Funciona 100% offline.",
 +  "lang": "es",
 +  "dir": "ltr",
-+  "start_url": "/infi/?source=pwa",
-+  "scope": "/infi/",
++  "start_url": "./?source=pwa",
+   "scope": "./",
+-  "id": "infiniversal-pwa-v1",
+-
    "display": "standalone",
 -  "display_override": ["standalone", "minimal-ui", "browser"],
 +  "display_override": [
-+    "window-controls-overlay",
 +    "standalone",
 +    "minimal-ui",
 +    "browser"
@@ -49,7 +47,8 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..a2b32ba77fbe8be74c2e061e681fc7ce
 -    { "src": "./icons/icon-512x512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
 +  "categories": [
 +    "productivity",
-+    "utilities"
++    "utilities",
++    "lifestyle"
    ],
 -
 -  "screenshots": [
@@ -76,9 +75,8 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..a2b32ba77fbe8be74c2e061e681fc7ce
        "name": "Nueva poesía",
        "short_name": "Poesía",
        "description": "Crear una nueva nota de poesía",
--      "url": "./?new=poetry",
+       "url": "./?new=poetry",
 -      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
-+      "url": "/infi/?new=poetry",
 +      "icons": [
 +        {
 +          "src": "./icon-192x192.png",
@@ -91,9 +89,8 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..a2b32ba77fbe8be74c2e061e681fc7ce
        "name": "Nueva canción",
        "short_name": "Canción",
        "description": "Crear una nueva letra de canción",
--      "url": "./?new=song",
+       "url": "./?new=song",
 -      "icons": [{ "src": "./icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" }]
-+      "url": "/infi/?new=song",
 +      "icons": [
 +        {
 +          "src": "./icon-192x192.png",
