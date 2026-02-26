@@ -857,7 +857,7 @@ svg{display:block;flex-shrink:0}
         </div>
       </div>
       <div class="accent-line"></div>
-      <div class="ornament" style="margin-top:12px">✦ · ✦ · ✦</div>
+      <div class="ornament" style="margin-top:12px">INFI · INFI · INFI</div>
     </div>
   </div>
 
@@ -967,7 +967,7 @@ svg{display:block;flex-shrink:0}
           <p>Selecciona todas las notas que desees y luego compártelas, expórtalas o bórralas en bloque.</p>
         </div>
       </div>
-      <div class="ornament" style="margin-top:20px">✦ · ✦ · ✦</div>
+      <div class="ornament" style="margin-top:20px">INFI · INFI · INFI</div>
     </div>
   </div>
 
@@ -1562,7 +1562,7 @@ function loadNoteIntoEditor(note) {
 
   // Type badge
   document.getElementById('editor-type-badge').textContent =
-    note.type === 'poetry' ? '✦ Poesía' : '♪ Canción';
+    note.type === 'poetry' ? 'Poesía' : 'Canción';
 
   // Structure badge
   const struct = getStructure(note.structure);
@@ -1833,11 +1833,11 @@ function openShareSheet(noteIds) {
 
 function doShareCopy(noteIds) {
   const text = getMultiNoteText(noteIds);
-  navigator.clipboard.writeText(text).then(() => showToast('✦ Copiado al portapapeles')).catch(() => {
+  navigator.clipboard.writeText(text).then(() => showToast('Copiado al portapapeles')).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = text; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    showToast('✦ Copiado al portapapeles');
+    showToast('Copiado al portapapeles');
   });
 }
 
@@ -1851,7 +1851,7 @@ function doShareTxt(noteIds) {
   const a = document.createElement('a');
   a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
-  showToast('✦ Archivo TXT generado');
+  showToast('Archivo TXT generado');
 }
 
 function doSharePdf(noteIds) {
@@ -1873,7 +1873,7 @@ function doSharePdf(noteIds) {
   <div class="meta">Infiniversal · ${new Date().toLocaleDateString('es')}</div>
   <hr>
   <pre>${escHtml(text)}</pre>
-  <div class="footer">✦ Infiniversal ✦</div>
+  <div class="footer">Infiniversal</div>
   <script>window.onload=()=>{window.print()}<\/script>
   </body></html>`);
   win.document.close();
@@ -2050,15 +2050,51 @@ function closeTutorial() {
 ═══════════════════════════════════════ */
 let deferredPrompt = null;
 
+function isStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function isIosDevice() {
+  const ua = window.navigator.userAgent || '';
+  return /iPad|iPhone|iPod/.test(ua) ||
+    (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
+}
+
+function configureInstallPromptUI() {
+  const btn = document.getElementById('install-pwa-btn');
+  const sub = document.querySelector('#install-prompt .install-sub');
+  const skip = document.getElementById('install-skip-btn');
+
+  if (deferredPrompt) {
+    btn.textContent = 'Instalar Infiniversal';
+    sub.innerHTML = 'Tu espacio de escritura creativa,<br>disponible sin conexión, siempre contigo.';
+    skip.textContent = 'Ahora no';
+    return;
+  }
+
+  if (isIosDevice()) {
+    btn.textContent = 'Cómo instalar en iPhone';
+    sub.innerHTML = 'Para instalar: pulsa Compartir en Safari y luego "Añadir a pantalla de inicio".';
+  } else {
+    btn.textContent = 'Entendido';
+    sub.innerHTML = 'Cuando tu navegador lo permita, verás la opción para instalar Infiniversal como app nativa.';
+  }
+}
+
+function showInstallPromptOnLaunch(delay = 700) {
+  if (isStandaloneMode()) return;
+  const promptEl = document.getElementById('install-prompt');
+  configureInstallPromptUI();
+  setTimeout(() => {
+    if (!isStandaloneMode()) promptEl.classList.remove('hidden');
+  }, delay);
+}
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  // Show install prompt after 1.5s if not already installed
-  setTimeout(() => {
-    if (!window.matchMedia('(display-mode: standalone)').matches) {
-      document.getElementById('install-prompt').classList.remove('hidden');
-    }
-  }, 1500);
+  configureInstallPromptUI();
+  showInstallPromptOnLaunch(300);
 });
 
 /* ═══════════════════════════════════════
@@ -2075,6 +2111,9 @@ document.addEventListener('DOMContentLoaded', () => {
   showView('home-view');
   renderHome();
 
+  // Mostrar cartel de instalación en cada apertura (si no está instalada)
+  showInstallPromptOnLaunch(900);
+
   // First launch tutorial
   if (state.settings.firstLaunch) {
     tutorialStep = 0;
@@ -2087,6 +2126,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    } else if (isIosDevice()) {
+      showToast('Safari > Compartir > Añadir a pantalla de inicio');
     }
     document.getElementById('install-prompt').classList.add('hidden');
   });
@@ -2148,7 +2189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     deleteNotes([...state.selectedNotes]);
     exitSelectionMode();
     renderHome();
-    showToast('✦ Notas eliminadas');
+    showToast('Notas eliminadas');
   });
   document.getElementById('sel-share-btn').addEventListener('click', () => {
     openShareSheet([...state.selectedNotes]);
@@ -2213,7 +2254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     note.favorite = !note.favorite;
     saveNote(note);
     updateFavIcon(note.favorite);
-    showToast(note.favorite ? '✦ Añadido a favoritos' : 'Quitado de favoritos');
+    showToast(note.favorite ? 'Añadido a favoritos' : 'Quitado de favoritos');
   });
 
   document.getElementById('editor-tag-btn').addEventListener('click', () => {
