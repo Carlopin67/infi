@@ -1,4 +1,3 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/sw.js b/sw.js
 index e77f27f56a4dd2ad7e49a636097bb9184e0ed83d..cbe8c4d1209c6506edca72e578c3d14c2b7249cf 100644
 --- a/sw.js
@@ -51,6 +50,3 @@ index e77f27f56a4dd2ad7e49a636097bb9184e0ed83d..cbe8c4d1209c6506edca72e578c3d14c
  /* Fetch — cache-first, fallback to network then offline page */
  self.addEventListener('fetch', e => {
    if (e.request.method !== 'GET') return;
- 
-EOF
-)
