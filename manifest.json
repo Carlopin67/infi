@@ -1,11 +1,9 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/manifest.json b/manifest.json
-index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d105b595f3 100644
+index 88c05656879c9403187adbc27ae33005f78f6cad..86f914d5dac02c66c8ceff552893621cf86b1511 100644
 --- a/manifest.json
 +++ b/manifest.json
-@@ -1,63 +1,67 @@
+@@ -1,63 +1,68 @@
  {
-+  "id": "./?source=pwa",
    "name": "Infiniversal",
    "short_name": "Infiniversal",
 -  "description": "Bloc de notas creativo para poesía y letras de canciones. Escribe, organiza y comparte tu obra. Funciona 100% sin conexión.",
@@ -14,22 +12,18 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d1
 +  "description": "Bloc de notas creativo para poesía y letras de canciones. Funciona 100% offline.",
 +  "lang": "es",
 +  "dir": "ltr",
-+  "start_url": "./?source=pwa",
++  "id": "./",
++  "start_url": "./index.html",
    "scope": "./",
 -  "id": "infiniversal-pwa-v1",
 -
    "display": "standalone",
 -  "display_override": ["standalone", "minimal-ui", "browser"],
-+  "display_override": [
-+    "standalone",
-+    "minimal-ui",
-+    "browser"
-+  ],
    "orientation": "portrait",
 -  "dir": "ltr",
 -  "lang": "es",
 -
-   "background_color": "#0C0B0A",
+-  "background_color": "#0C0B0A",
    "theme_color": "#0C0B0A",
 -
 -  "categories": ["productivity", "utilities", "lifestyle"],
@@ -45,6 +39,7 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d1
 -    { "src": "./icons/icon-384x384.png",          "sizes": "384x384", "type": "image/png", "purpose": "any" },
 -    { "src": "./icons/icon-512x512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
 -    { "src": "./icons/icon-512x512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
++  "background_color": "#0C0B0A",
 +  "categories": [
 +    "productivity",
 +    "utilities",
@@ -59,6 +54,12 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d1
 +      "type": "image/png",
 +      "purpose": "any"
 +    },
++    {
++      "src": "./icon-512x512.png",
++      "sizes": "512x512",
++      "type": "image/png",
++      "purpose": "any"
++    },
      {
 -      "src": "./icons/icon-512x512.png",
 +      "src": "./icon-512x512.png",
@@ -66,7 +67,7 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d1
        "type": "image/png",
 -      "form_factor": "narrow",
 -      "label": "Pantalla principal de Infiniversal"
-+      "purpose": "any maskable"
++      "purpose": "maskable"
      }
    ],
 -
@@ -105,6 +106,3 @@ index 88c05656879c9403187adbc27ae33005f78f6cad..2537b9213d3cf16c42ba1118f98484d1
 -  "launch_handler": { "client_mode": "focus-existing" }
 +  "prefer_related_applications": false
  }
- 
-EOF
-)
